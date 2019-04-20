@@ -5,7 +5,7 @@
         <div v-for="(blog,index) in filteredBlogs" class="single-blog" v-bind:key="index">
             <router-link v-bind:to="'/blog/' + blog.id"><h2 >{{ blog.title | toUppercase }}</h2></router-link>
             <!-- v-rainbow -->
-            <article>{{blog.body | snippet }}</article>
+            <article>{{blog.content | snippet }}</article>
         </div>
     </div>    
 </template>
@@ -19,10 +19,17 @@ export default {
         }
     },
     created(){
-        this.$http.get('https://jsonplaceholder.typicode.com/posts').then(function(data){
-            console.log(data);
-            this.blogs = data.body.slice(0,10);
-        });
+        this.$http.get('https://vue-blog-list-ad830.firebaseio.com/post.json').then(function(data){
+            return data.json();
+        }).then(function(data){
+            var blogsArray = [];
+            for(let key in data){
+                data[key].id = key;
+                blogsArray.push(data[key])
+            }
+            console.log(blogsArray);
+            this.blogs = blogsArray;
+        })
     },
     filters: {
         toUppercase(value){
