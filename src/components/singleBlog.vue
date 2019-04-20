@@ -2,7 +2,10 @@
     <div id="single-blog">
         <h1>{{blog.title}}</h1>
         <article>{{blog.content}}</article>
-
+        <p>Author: {{blog.author}}</p>
+        <ul>
+            <li v-for="(category,index) in blog.categories" v-bind:key="index">{{category}}</li>
+        </ul>
     </div>    
 </template>
 
